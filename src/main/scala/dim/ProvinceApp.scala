@@ -54,32 +54,15 @@ object ProvinceApp {
             val jsonStr: String = record.value()
             //将json格式字符串封装为ProvinceInfo对象
             val provinceInfo: TProvince = JSON.parseObject(jsonStr, classOf[TProvince])
+            println(provinceInfo)
             provinceInfo
           }
         }
 
-
-        import spark.implicits._
-
-//        val sqlContext = new SQLContext(sc)
-//        sqlContext.phoenixTableAsDataFrame(
-//          "t_province",
-//          Seq("id","name","code","pcode","field_key","district_id"),
-//          None,
-//          Some("node11,node12,node13,node14,node15:2181"),
-//          None,
-//          new Configuration
-//          )
-
-//        provinceInfoRDD.todf.write
-//          .format("phoenix")
-//          .mode(SaveMode.Overwrite)
-//          .options(Map("table" -> "OUTPUT_TABLE", PhoenixDataSource.ZOOKEEPER_URL -> "phoenix-server:2181"))
-//          .save()
         import org.apache.phoenix.spark._
         provinceInfoRDD.saveToPhoenix(
-          "t_province",
-          Seq("id","name","code","pcode","field_key","district_id"),
+          "T_PROVINCE",
+          Seq("ID","NAME","CODE","PCODE","FIELD_KEY","DISTRICT_ID"),
           new Configuration,
           Some("node11,node12,node13,node14,node15:2181")
         )
